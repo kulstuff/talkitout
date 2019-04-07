@@ -1,0 +1,54 @@
+{
+  "name": "webpack-react-preheated",
+  "version": "0.0.2",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start-server": "http-server -c-1 -p 3000",
+    "predeploy": "npm run build",
+    "deploy": "",
+    "dev": "",
+    "start": "webpack-dev-server --mode development --open --hot",
+    "build": "webpack --mode production",
+    "test": "ninenine"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Aadiyaara/Webpack-React-PreHeated.git"
+  },
+  "keywords": [
+    "PreHeat",
+    "Webpack",
+    "React",
+    "Sword"
+  ],
+  "author": "Aadiyaara <aadiyaara@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Aadiyaara/Webpack-React-PreHeated/issues"
+  },
+  "homepage": "https://github.com/Aadiyaara/Webpack-React-PreHeated#readme",
+  "dependencies": {
+    "firebase": "^5.9.3",
+    "react": "^16.8.4",
+    "react-dom": "^16.8.4",
+    "react-router-dom": "^4.3.1"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.5",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-es2015-destructuring": "^6.23.0",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "css-loader": "^2.1.1",
+    "html-webpack-plugin": "^3.2.0",
+    "node-sass": "^4.11.0",
+    "sass-loader": "^7.1.0",
+    "style-loader": "^0.23.1",
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.2.3",
+    "webpack-dev-server": "^3.2.1"
+  }
+}
