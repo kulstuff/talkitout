@@ -40,46 +40,45 @@ class Home extends Component {
         console.log('Component Did Mount PC: ', this.pc);
         var database = Firebase.database().ref();
         //Create an account on Viagenie (http://numb.viagenie.ca/), and replace {'urls': 'turn:numb.viagenie.ca','credential': 'websitebeaver','username': 'websitebeaver@email.com'} with the information from your account
-        this.pc.onicecandidate = (event => event.candidate?sendMessage(this.yourId, JSON.stringify({'ice': event.candidate})):console.log("Sent All Ice") );
+        this.pc.onicecandidate = (event => event.candidate?this.sendMessage(this.yourId, JSON.stringify({'ice': event.candidate})):console.log("Sent All Ice") );
         this.pc.onaddstream = (event => friendsVideo.srcObject = event.stream);
-        function sendMessage(senderId, data) {
-            var msg = database.push({ sender: senderId, message: data });
-            msg.remove();
-            console.log('Reaches Here');
-        }
 
-        function readMessage(data) {
-            var msg = JSON.parse(data.val().message);
-            var sender = data.val().sender;
-            if (sender != this.yourId) {
-                if (msg.ice != undefined)
-                    this.pc.addIceCandidate(new RTCIceCandidate(msg.ice));
-                else if (msg.sdp.type == "offer")
-                    this.pc.setRemoteDescription(new RTCSessionDescription(msg.sdp))
-                    .then(() => this.pc.createAnswer())
-                    .then(answer => this.pc.setLocalDescription(answer))
-                    .then(() => sendMessage(this.yourId, JSON.stringify({'sdp': this.pc.localDescription})));
-                else if (msg.sdp.type == "answer")
-                    this.pc.setRemoteDescription(new RTCSessionDescription(msg.sdp));
-            }
-            console.log('Reaches Here');
-        };
-
-        database.on('child_added', readMessage);
+        database.on('child_added', this.readMessage);
     }
 
     // componentDidMount = () => {
     //     //Create an account on Firebase, and use the credentials they give you in place of the following 
 
+    
+    sendMessage = (senderId, data) => {
+        var msg = database.push({ sender: senderId, message: data });
+        msg.remove();
+        console.log('Reaches Here');
+    }
 
+    readMessage = (data) => {
+        var msg = JSON.parse(data.val().message);
+        var sender = data.val().sender;
+        if (sender != this.yourId) {
+            if (msg.ice != undefined)
+                this.pc.addIceCandidate(new RTCIceCandidate(msg.ice));
+            else if (msg.sdp.type == "offer")
+                this.pc.setRemoteDescription(new RTCSessionDescription(msg.sdp))
+                .then(() => this.pc.createAnswer())
+                .then(answer => this.pc.setLocalDescription(answer))
+                .then(() => this.sendMessage(this.yourId, JSON.stringify({'sdp': this.pc.localDescription})));
+            else if (msg.sdp.type == "answer")
+                this.pc.setRemoteDescription(new RTCSessionDescription(msg.sdp));
+        }
+        console.log('Reaches Here');
+    };
 
     // }
-
     
     showFriendsFace = () => {
         this.pc.createOffer()
             .then(offer => this.pc.setLocalDescription(offer) )
-            .then(() => sendMessage(this.yourId, JSON.stringify({'sdp': this.pc.localDescription})) );
+            .then(() => this.sendMessage(this.yourId, JSON.stringify({'sdp': this.pc.localDescription})) );
     }
 
     render () {
