@@ -13,8 +13,10 @@ class Home extends Component {
         messagingSenderId: "206647692136"
     };
 
-    yourId = Math.floor(Math.random()*1000000000);
+    yourId;
     pc = {};
+
+    database;
 
     componentDidMount = () => {
         var servers = {'iceServers': [{'urls': 'stun:stun.services.mozilla.com'}, {'urls': 'stun:stun.l.google.com:19302'}, {'urls': 'turn:numb.viagenie.ca','credential': 'beaver','username': 'webrtc.websitebeaver@gmail.com'}]};
@@ -27,6 +29,7 @@ class Home extends Component {
             storageBucket: "talkitout-3f3b7.appspot.com",
             messagingSenderId: "206647692136"
         }
+        
         this.yourId = Math.floor(Math.random()*1000000000);
         var yourVideo = document.getElementById('yourVideo')
         var friendsVideo = document.getElementById('friendsVideo')
@@ -38,12 +41,12 @@ class Home extends Component {
         Firebase.initializeApp(this.config);
         
         console.log('Component Did Mount PC: ', this.pc);
-        var database = Firebase.database().ref();
+        this.database = Firebase.database().ref();
         //Create an account on Viagenie (http://numb.viagenie.ca/), and replace {'urls': 'turn:numb.viagenie.ca','credential': 'websitebeaver','username': 'websitebeaver@email.com'} with the information from your account
         this.pc.onicecandidate = (event => event.candidate?this.sendMessage(this.yourId, JSON.stringify({'ice': event.candidate})):console.log("Sent All Ice") );
         this.pc.onaddstream = (event => friendsVideo.srcObject = event.stream);
 
-        database.on('child_added', this.readMessage);
+        this.database.on('child_added', this.readMessage);
     }
 
     // componentDidMount = () => {
@@ -51,7 +54,7 @@ class Home extends Component {
 
     
     sendMessage = (senderId, data) => {
-        var msg = database.push({ sender: senderId, message: data });
+        var msg = this.database.push({ sender: senderId, message: data });
         msg.remove();
         console.log('Reaches Here');
     }
