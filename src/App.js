@@ -24,7 +24,7 @@ class App extends Component {
       <React.Fragment>
         <BrowserRouter>
           <React.Fragment>
-            <Route path="/" component={Home} />
+            <Route exact path="/" component={Home} />
             <Route path="/call" component={Call} />
             <Route path="/landing" component={Landing} />
           </React.Fragment>
