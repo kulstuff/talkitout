@@ -1,0 +1,25 @@
+.navbar-nav {
+  padding: 5px;
+}
+.navbar-brand {
+  padding: 10px;
+  font-weight: 100;
+  //   color: #ffec19 !important;
+}
+.navbar {
+  //   background-color: red !important;
+}
+.navbar-login {
+  color: darken(#ffec19, 5%);
+}
+.nav-link {
+  text-transform: uppercase;
+  font-size: 95%;
+  letter-spacing: 0.5px;
+  font-weight: 900;
+  padding: 10px;
+  transition: all 0.3s;
+  &:hover {
+    color: #75b9be !important;
+  }
+}
