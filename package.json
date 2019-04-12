@@ -31,6 +31,7 @@
   "dependencies": {
     "firebase": "^5.9.3",
     "react": "^16.8.4",
+    "react-animate-on-scroll": "^2.1.5",
     "react-dom": "^16.8.4",
     "react-router-dom": "^4.3.1"
   },
