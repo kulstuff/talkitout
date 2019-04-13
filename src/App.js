@@ -9,6 +9,8 @@ import "./styles/sass/main.scss";
 import Home from "./Components/Foundational/Home";
 import Call from "./Components/Foundational/Call";
 import Landing from "./Components/Landing/Landing";
+import Login from "./Components/Universal/Login";
+import Register from "./Components/Universal/Register";
 class App extends Component {
   state = {
     username: null,
@@ -26,6 +28,8 @@ class App extends Component {
             <Route exact path="/" component={Home} />
             <Route path="/call" component={Call} />
             <Route path="/landing" component={Landing} />
+            <Route path="/login" component={Login} />
+            <Route path="/register" component={Register} />
           </React.Fragment>
         </BrowserRouter>
       </React.Fragment>

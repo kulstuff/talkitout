@@ -4,6 +4,8 @@ import GetStarted from "./GetStarted";
 import Numbering from "../Universal/Numbering";
 import Footer from "../Universal/Footer";
 
+import Login from "../Universal/Login";
+
 import "./Landing.scss";
 
 import ScrollAnimation from "react-animate-on-scroll";
