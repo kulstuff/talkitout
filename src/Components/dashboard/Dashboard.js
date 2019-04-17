@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
-import Topbar from "../dashboard/topbar";
-import Leftbar from "../dashboard/leftbar";
+import Topbar from "./topbar";
+import Home from "./home";
 
+import "./dashboard.scss";
 
 export default class Dashboard extends Component {
     render() {
         return (
-            <div className="">
+            <div className="dashboard">
                 <Topbar />
-                <Leftbar />
+                <Home />
             </div>
         );
     }

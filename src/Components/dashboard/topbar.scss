@@ -1,37 +1,55 @@
-.navbar-nav {
-    padding: 5px;
-  }
-  .navbar-brand {
-    padding: 10px;
-    font-weight: 100;
-    //   color: #ffec19 !important;
-  }
-  .navbar {
-    //   background-color: red !important;
-  }
-  .navbar-login {
-    
-    color: darken(#ffec19, 5%);
-    
-  }
-  .nav-link {
-    text-transform: uppercase;
-    font-size: 95%;
-    letter-spacing: 0.5px;
-    font-weight: 900;
-    padding: 10px;
-    transition: all 0.3s; 
-    &:hover { 
-      color: #75b9be !important;
+
+.topbar{
+  border-bottom: 1px solid #eee; 
+  display: inline-block;
+  width: 100vw;
+  height: 17rem; 
+  background-image: linear-gradient(to right,#a8ccc9,#75b9be);
+  z-index: 10;
+
+  &_main{
+    // margin-top:2rem;
+    padding: 2rem 2rem;
+    font-size: 2rem;
+    color:white;
+    &:hover{
+      text-decoration: none;
+      color: white
     }
-    
+  
   }
-   
-  .navbar-logout{
-    margin-left: 85vw;
-    // transform: translateX(-500%)
 }
-  .topbar{
-      // position: absolute;
-      border-bottom: 0.1px solid #eeeeee;
+.topbar-panel{
+  
+  float:right;
+  padding:1rem;
+  margin-right:2rem;
+  // margin-top:0.7rem;
+  
+  // &_profile{
+  //   // margin-top:1rem;
+  //   font-size: 2rem; 
+  //   padding: 2rem 2rem;
+  //   color: white
+
+  // }
+  // &_arrow{
+  //   font-size: 1rem; 
+  //   padding: 2rem 2rem;
+  //   color: white
+  // }
+}
+
+.topbar-link{
+  // float:right;
+  transition: all 0.2s;
+  padding: 0rem 2rem;
+  font-size: 1.2rem;
+  color:white;
+
+  &:hover{
+    text-decoration: none;
+    color: #75b9be !important;
+
   }
+}

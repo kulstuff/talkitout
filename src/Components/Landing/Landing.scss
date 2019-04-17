@@ -1,9 +1,63 @@
 .jumbotron {
   &__landing {
-    background-image: url(../../img/landing-bg.jpg);
+    // background-image: url(../../img/landing-bg.jpg);
+    background-color: #ffec19;
     background-position: bottom;
     background-size: cover;
-    background-repeat: no-repeat;
-    height: 80vh !important;
+    min-height: 85vh !important;
+    margin-top: 70px;
   }
+
+  &__info {
+    padding: 40px;
+    // border-bottom: 1px solid #ffec19;
+
+    &--img {
+      width: 400px;
+      position: relative;
+      left: 50%;
+      transform: translate(-50%, 0%);
+    }
+
+    &--text {
+      padding: 80px 30px;
+    }
+  }
+
+  &__how-it-works{
+    background-color:rgba(#ffec19, 0.9);
+    padding:80px 60px;
+    min-height:80vh;
+    &--points{
+      display:inline-block;
+      position:relative;
+      left:50%;
+      transform : translateX(-50%);
+      padding:10px;
+    }
+  }
+
+  &__pricing{
+    padding: 80px 60px;
+    &--card-container{
+      padding:10px 50px;
+    }
+    &--card-img{
+      width:180px;
+      margin:auto;
+      padding:20px;
+    }
+    &--card-body{
+      text-align:center;
+      margin:auto;
+    }
+  }
+}
+
+.color-yellow {
+  color: darken(#ffec19, 5%) !important;
+}
+
+.color-blue {
+  color: #75b9be !important;
 }
