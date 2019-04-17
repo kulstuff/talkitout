@@ -1,4 +1,8 @@
 import React, { Component } from "react";
+import { Route, BrowserRouter } from "react-router-dom";
+import { Link } from "react-router-dom";
+
+import Login from "./Login";
 //Style
 import "./Navbar.scss";
 
@@ -46,8 +50,10 @@ class Navbar extends Component {
           </div>
 
           <div className="float-right">
-            <a className="nav-link navbar-login" href="#">
-              Log-In
+            <a className="nav-link navbar-login">
+              <Link className="nav-link navbar-login" to="/Login">
+                Log-In
+              </Link>
             </a>
           </div>
         </nav>
