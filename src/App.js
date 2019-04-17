@@ -6,11 +6,14 @@ import { Route, BrowserRouter, Switch } from "react-router-dom"
 import "./styles/sass/main.scss"
 
 // Components
-import Home from "./Components/Foundational/Home"
-import Call from "./Components/Foundational/Call"
-import Landing from "./Components/Landing/Landing"
-import Login from "./Components/Universal/Login"
-import Register from "./Components/Universal/Register"
+import Home from "./Components/Foundational/Home";
+import Call from "./Components/Foundational/Call";
+import Landing from "./Components/Landing/Landing";
+
+import Dashboard from "./Components/dashboard/Dashboard"
+
+import Login from "./Components/Universal/Login";
+import Register from "./Components/Universal/Register";
 
 // Context
 import AuthContext from './Context/Auth-Context'
@@ -50,6 +53,7 @@ class App extends Component {
                   <Route exact path="/" component={Home} />
                   <Route path="/call" component={Call} />
                   <Route path="/landing" component={Landing} />
+                  <Route path="/dashboard" component={Dashboard} />
                   <Route path="/login" component={Login} />
                   <Route path="/register" component={Register} />
                 </Switch>
