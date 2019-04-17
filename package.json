@@ -29,6 +29,7 @@
   },
   "homepage": "https://github.com/Aadiyaara/Webpack-React-PreHeated#readme",
   "dependencies": {
+    "classnames": "^2.2.6",
     "firebase": "^5.9.3",
     "react": "^16.8.4",
     "react-animate-on-scroll": "^2.1.5",
