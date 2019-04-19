@@ -10,7 +10,9 @@ import Home from "./Components/Foundational/Home";
 import Call from "./Components/Foundational/Call";
 import Landing from "./Components/Landing/Landing";
 import Login from "./Components/Universal/Login";
+import Mood from "./Components/mood_calendar/mood_insert";
 import Register from "./Components/Universal/Register";
+// import Register from "./Components/Universal/Register";
 class App extends Component {
   state = {
     username: null,
@@ -30,6 +32,7 @@ class App extends Component {
             <Route path="/landing" component={Landing} />
             <Route path="/login" component={Login} />
             <Route path="/register" component={Register} />
+            <Route path="/mood" component={Mood} />
           </React.Fragment>
         </BrowserRouter>
       </React.Fragment>
