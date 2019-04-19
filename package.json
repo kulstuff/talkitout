@@ -29,6 +29,7 @@
   },
   "homepage": "https://github.com/Aadiyaara/Webpack-React-PreHeated#readme",
   "dependencies": {
+    "date-fns": "^1.30.1",
     "@material-ui/core": "^3.9.3",
     "apollo-client-preset": "^1.0.8",
     "axios": "^0.18.0",
