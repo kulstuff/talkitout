@@ -1,0 +1,55 @@
+
+.topbar{
+  border-bottom: 1px solid #eee; 
+  display: inline-block;
+  width: 100vw;
+  height: 17rem; 
+  background-image: linear-gradient(to right,#a8ccc9,#75b9be);
+  z-index: 10;
+
+  &_main{
+    // margin-top:2rem;
+    padding: 2rem 2rem;
+    font-size: 2rem;
+    color:white;
+    &:hover{
+      text-decoration: none;
+      color: white
+    }
+  
+  }
+}
+.topbar-panel{
+  
+  float:right;
+  padding:1rem;
+  margin-right:2rem;
+  // margin-top:0.7rem;
+  
+  // &_profile{
+  //   // margin-top:1rem;
+  //   font-size: 2rem; 
+  //   padding: 2rem 2rem;
+  //   color: white
+
+  // }
+  // &_arrow{
+  //   font-size: 1rem; 
+  //   padding: 2rem 2rem;
+  //   color: white
+  // }
+}
+
+.topbar-link{
+  // float:right;
+  transition: all 0.2s;
+  padding: 0rem 2rem;
+  font-size: 1.2rem;
+  color:white;
+
+  &:hover{
+    text-decoration: none;
+    color: #75b9be !important;
+
+  }
+}

@@ -1,0 +1,221 @@
+.home{
+    border: 1px solid #eee;
+    height:85vh;
+    width: 75vw;
+    top: 15vh ;
+    left:50vw;
+    transform: translateX(-50%);
+    position: absolute;
+    box-shadow: 0 0 0.2px 0px gray;
+    z-index: 1000;
+    background-color: white;
+    border-radius: 0.5rem;
+ 
+    &_profile{
+        display: inline-block;
+        margin-left:50%;
+        transform: translateX(-50%);
+
+        // padding: 0;
+    }
+
+    &_profile-pic{
+        // position: absolute;
+        width: 9rem;
+        height: 9rem;
+        border-radius: 100rem;
+        background-image: url("../../img/profile.jpg");
+        box-shadow: 0 0 3px 0px #eee;
+
+        background-size: cover; 
+        border: 5px grey;
+        margin-left: 50%;
+        transform: translate(-50%,-40%);
+        display: inline-block;
+
+    }
+
+    &_profile-name{
+        // position: absolute;
+    
+        color: gray;
+        transform: translateY(-100%);
+        // top:2rem;
+        // left:10rem;
+        font-size: 1.7rem;
+        font-weight: 400;
+        padding: 1rem 1.5rem;
+        font-family: 'Roboto', sans-serif;
+    }
+}
+
+.home_session{
+    display: inline-block;
+    // background-color: red;
+    margin-top: 4rem;
+    margin-left: 4rem;
+    width: 100%;
+    // height: 10rem;
+    // background-color: #eee;
+    padding: 0rem 1.5rem;
+    &_container{
+        display: inline-block;
+        width: 50%;
+        vertical-align: top;
+        height: 100%;
+        // background-color: green;
+    }
+}
+
+.home_call {
+    display: inline-block;
+    width: 50%;
+    height: 100%;
+    padding: 2rem;
+    &_box {
+        background-color: lightpink;
+        height: 100%;
+        width: 100%;
+    }
+    // background-color: red;
+}
+
+.session{
+    padding:0.3rem;
+    background-color: #eee;
+    width:30rem;
+    // display: inline-block;
+    &_heading{
+        color:  black;
+        margin-left: 5rem;
+        font-family: 'Roboto',sans-serif;
+        font-size: 1.2rem;
+        font-weight: 400;
+    }
+    &_pic1{
+    width:5rem;
+    height:5rem;
+    border-radius: 100rem;
+    background-image: url("../../img/listener.jpg");
+    background-size: cover; 
+    float:left;    // padding:0.5rem;
+}
+
+    &_pic2{
+    // padding:1.5rem;
+    width:5rem;
+    height:5rem;
+    border-radius: 100rem;
+    background-image: url("../../img/listener2.png");
+    background-size: cover; 
+    float:left;
+
+}
+
+    &_text1{
+    // padding: 1rem;
+    margin-left: 2rem;
+    display: inline-block;
+    // float:left;
+    font-size: 1rem;
+    font-family: 'Roboto', sans-serif;
+    color: gray
+}
+}
+.session_text-name{
+    padding:0;
+    margin:0;
+}
+
+.session_text-qualification{
+    margin:0;
+}
+.session_text-time{
+    font-style:italic;
+
+
+}
+.session_text2{
+    display: inline-block;
+    margin-left: 2rem;
+
+    // float:left;
+    font-size: 1rem;
+    font-family: 'Roboto', sans-serif;
+    color: gray;
+
+}
+
+
+.btn_placement{
+    float:right;
+    top:3rem;   
+    right:9rem;
+}
+
+.home-stats{
+    position: absolute;
+    padding:1rem;
+    top:2rem;
+    left:6rem;
+}
+
+.stats-box{
+    width: 6rem;
+    height:5.5rem;
+    float: left;
+}
+
+.number{
+    font-size: 2rem;
+    font-weight: 700;
+    text-align: center;
+    color: gray;
+    margin:0;
+    
+}
+
+.number-label{
+    font-size: 1rem;
+    color: gray;
+    text-align: center
+}
+
+.conv{
+    font-size:2rem;
+    display: inline;
+    float:right;
+    padding:1rem;
+    //  &-call{
+       
+    //         position: relative;
+    //         display: inline-block;
+    //         border-bottom: 1px dotted black;
+          
+    //  }
+    // &-call:hover{
+    //     visibility:visible;
+       
+    // }
+    // &-view:hover{
+    //     visibility:visible;
+
+    // }
+    // &-call-text:hover{
+    //     visibility:visible;
+    // }
+}
+// .conv-call .conv-call-text {
+//     visibility: hidden;
+//     width: 120px;
+//     height: 100px;
+//     background-color: black;
+//     color: black;
+//     text-align: center;
+//     border-radius: 6px;
+//     padding: 5px 0;
+  
+//     /* Position the tooltip */
+//     position: absolute;
+//     z-index: 100;
+// }

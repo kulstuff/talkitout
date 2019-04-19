@@ -19,7 +19,7 @@
   }
 
   &__form {
-    padding: 50px 0;
+    padding: 10px 0;
     padding-bottom: 25px;
     &--button {
       width: 300px;
@@ -249,10 +249,12 @@ main {
   top: 0.75em;
   right: 0.75em;
   font-weight: 700;
+  color: inherit;
 }
 
 .calendar .body .disabled {
   color: var(--text-color-light);
+
   pointer-events: none;
 }
 
