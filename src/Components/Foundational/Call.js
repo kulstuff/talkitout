@@ -3,8 +3,8 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 
 // FIrebae Signalling
-import Firebase from 'firebase';
-import Axios from 'axios';
+import Firebase from 'firebase'
+import Axios from 'axios'
 
 // Get Context
 import AuthContext from '../../Context/Auth-Context'
@@ -31,17 +31,20 @@ class Call extends Component {
         messagingSenderId: "206647692136"
     };
 
-    yourId;
-    pc = {};
+    yourId
+    pc = {}
 
     database;
 
     static contextType = AuthContext
 
     componentDidMount = () => {
-        if(this.state.secret) {
-            var servers = {'iceServers': [{'urls': 'stun:stun.services.mozilla.com'}, {'urls': 'stun:stun.l.google.com:19302'}, {'urls': 'turn:numb.viagenie.ca','credential': this.state.secret,'username': 'webrtc.websitebeaver@gmail.com'}]};
-            this.pc = new RTCPeerConnection(servers);
+        if(true) {
+            
+            var servers = {'iceServers': [{'urls': 'stun:stun.services.mozilla.com'}, {'urls': 'stun:stun.l.google.com:19302'}, {'urls': 'turn:numb.viagenie.ca','credential': 'secret','username': 'talkitout.kulstuff@gmail.com'}]};
+            
+            this.pc = new RTCPeerConnection(servers)
+            
             this.config = {
                 apiKey: "AIzaSyDa4cc_QgvCpAsFKtbScYyHD7S9fZpKaPY",
                 authDomain: "talkitout-3f3b7.firebaseapp.com",
@@ -78,7 +81,7 @@ class Call extends Component {
     sendMessage = (senderId, data) => {
         var msg = this.database.push({ sender: senderId, message: data });
         msg.remove();
-        console.log('Reaches Here');
+        console.log('Reaches Here')
     }
 
     readMessage = (data) => {
@@ -95,8 +98,8 @@ class Call extends Component {
             else if (msg.sdp.type == "answer")
                 this.pc.setRemoteDescription(new RTCSessionDescription(msg.sdp));
         }
-        console.log('Reaches Here');
-    };
+        console.log('Reaches Here')
+    }
 
     // }
     
@@ -106,34 +109,34 @@ class Call extends Component {
             .then(() => this.sendMessage(this.yourId, JSON.stringify({'sdp': this.pc.localDescription})) );
     }
 
-    startFlow = () => {
-        // Init
-        // Find a Executive
-        if (this.state.purpose) {
-            const findExecutiveRequestBody = {
-                query: `{
-                    findExecutive(purpose: "${this.state.purpose}"){
-                        listener
-                    }
-                }`
-            }
-            Axios.post('https://talkitout-backend.herokuapp.com/graphql', JSON.stringify(findExecutiveRequestBody), {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + this.context.token
-                }
-            }).then(res => {
-                console.log(res)
-            }).catch(err => {
-                console.log(err)
-            })
-        }
-    }
+    // startFlow = () => {
+    //     // Init
+    //     // Find a Executive
+    //     if (this.state.purpose) {
+    //         const findExecutiveRequestBody = {
+    //             query: `{
+    //                 findExecutive(purpose: "${this.state.purpose}"){
+    //                     listener
+    //                 }
+    //             }`
+    //         }
+    //         Axios.post('https://talkitout-backend.herokuapp.com/graphql', JSON.stringify(findExecutiveRequestBody), {
+    //             headers: {
+    //                 'Content-Type': 'application/json',
+    //                 'Authorization': 'Bearer ' + this.context.token
+    //             }
+    //         }).then(res => {
+    //             console.log(res)
+    //         }).catch(err => {
+    //             console.log(err)
+    //         })
+    //     }
+    // }
 
     render () {
         return(
             <div className='home'>
-                Home
+                    Home
                 <div className='wish'>
                     Do You wish to Talk to Our Executives?
                 </div>
@@ -167,4 +170,4 @@ class Call extends Component {
     // }
 }
 
-export default Call;
+export default Call

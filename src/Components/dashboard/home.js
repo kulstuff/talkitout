@@ -2,8 +2,10 @@
 import React, { Component } from 'react'
 
 // Material - UI
-import Switch from '@material-ui/core/Switch';
+import Switch from '@material-ui/core/Switch'
+import { Button } from '@material-ui/core'
 
+// Styling
 import "./home.scss";
 
 // Axios
@@ -11,20 +13,21 @@ import Axios from 'axios'
 
 // App Auth Context
 import AuthContext from '../../Context/Auth-Context'
-import { Button } from '@material-ui/core'
+import Call from '../Foundational/Call';
 
 export default class Home extends Component {
 
     static contextType = AuthContext
 
     state = {
-        name: null,
-        username: null,
-        email: null,
-        age: null,
-        mobile: null,
-        address: null,
-        purpose: 'test'
+        purpose: 'test',
+        keepAsking: null,
+        request: null,
+        message: null,
+        showAlertDialog: true,
+        status: 'docked',
+        loading: false,
+        secret: null
     }
 
     componentWillMount = () => {
@@ -88,6 +91,8 @@ export default class Home extends Component {
                 }
             }).then(res => {
                 console.log(res)
+                this.setState({keepAsking: true})
+                this.keepAsking()
             }).catch(err => {
                 console.log(err)
             })
@@ -100,6 +105,7 @@ export default class Home extends Component {
                 }
             }).then(res => {
                 console.log(res)
+                this.setState({keepAsking: false})
             }).catch(err => {
                 console.log(err)
             })
@@ -107,10 +113,106 @@ export default class Home extends Component {
 
     }
 
+    keepAsking = () => {
+        const checkForRequestByInternRequestBody = {
+            query: `{
+               checkForRequestByIntern
+            }`
+        }
+        console.log('Listening for Requests');
+        if(this.state.keepAsking) {
+            Axios.post('https://talkitout-backend.herokuapp.com/graphql', JSON.stringify(checkForRequestByInternRequestBody), {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + this.context.token
+                }
+            }).then(res => {
+                console.log('Listening for new requests: ', res.data.data.checkForRequestByIntern)
+                if (res.data.data.checkForRequestByIntern == 'Request Received') {
+                    // Mark the Intern Busy and show the Dialog
+                    this.markInternBusy()
+                    // The Latter function should be made a callback of the former
+                    this.recievedRequest()
+                }
+                else {
+                    setTimeout(this.keepAsking, 1000)
+                }
+            }).catch(err => {
+                console.log('Error Listening to new request Please Refresh: ', err)
+                // Show must go on
+                setTimeout(this.keepAsking, 1000)
+            })
+        }
+    }
+
+    markInternBusy = () => {
+        const makeInternBusyRequestBody = {
+            query: `mutation {
+                makeInternBusy
+            }`
+        }
+        Axios.post('https://talkitout-backend.herokuapp.com/graphql', JSON.stringify(makeInternBusyRequestBody), {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + this.context.token
+            }
+        }).then(res => {
+            console.log('Listening for new requests: ', res.data.data.makeInternBusy)
+        }).catch(err => {
+            console.log('Error Listening to new request Please Refresh: ', err)
+        })
+    }
+
+    recievedRequest = () => {
+        const getRequestRequestBody = {
+            query: `{
+                getRequest {
+                    purpose
+                }
+            }`
+        }
+        console.log('Request Recieved')
+        this.setState({keepAsking: false})
+        Axios.post('https://talkitout-backend.herokuapp.com/graphql', JSON.stringify(getRequestRequestBody), {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + this.context.token
+            }
+        }).then(res => {
+            console.log('Listening for new requests: ', res)
+            this.showInternRequestDialog()
+        }).catch(err => {
+            console.log('Error getting the commited request: ', err)
+        })
+    }
+
+    showInternRequestDialog = () => {
+        this.setState({showAlertDialog: true})
+    }
+
+    disperseDialog = () => {
+        // console.log('SET');
+        this.setState({showAlertDialog: false})
+    }
+
+    startInternSession = () => {
+
+    }
+
     render() {
         
         const userDash = (
             <React.Fragment>
+                { this.state.loading && <div className='loading'>
+                    <div class="spinner spinner-components">
+                        <div class="bounce1"></div>
+                        <div class="bounce2"></div>
+                        <div class="bounce3"></div>
+                    </div>
+                </div> }
+                { this.state.status == 'onCall' && this.state.secret && <div>
+                    <Call secret={this.state.secret}/>
+                </div> }
                 <div className="home-stats">
                     <div className="stats-box"><p className="number">4</p>
                         <p className="number-label">Weeks</p></div>
@@ -213,7 +315,6 @@ export default class Home extends Component {
                                 <ion-icon name="mic"></ion-icon>
 
                             </div>
-
                         </div>
                         <div className="session">
                             <div className="session_pic2">
@@ -250,6 +351,15 @@ export default class Home extends Component {
         
         const internDash = (
             <React.Fragment>
+                { this.state.showAlertDialog && <div className='alert_dialog'>
+                    <div className='alert_dialog_container'>
+                        <div className='alert_dialog_text'>You have a new Call. Answer?</div>
+                        <div className='alert_dialog_btn-wrap'>
+                            <Button className='alert_dialog_btn'>Yes</Button>
+                            <Button className='alert_dialog_btn'>No</Button>
+                        </div>
+                    </div>
+                </div> }
                 <div className="home-stats">
                     <div className="stats-box"><p className="number">4</p>
                         <p className="number-label">Weeks</p></div>
@@ -401,27 +511,38 @@ export default class Home extends Component {
         )
 
         return (
-            <div className="home">
-                {
-                    this.context.typeUser == 'user' ? (
-                        userDash
-                    ) : (
-                        this.context.typeUser == 'intern' ? (
-                            internDash
+            <React.Fragment>
+                { this.state.showAlertDialog && <div className='alert_dialog'>
+                    <div className='alert_dialog_container'>
+                        <div className='alert_dialog_text'>You have a new call. Answer?</div>
+                        <div className='alert_dialog_btn-wrap'>
+                            <Button variant='outlined' color='primary' className='alert_dialog_btn' onClick={this.startInternSession}>Yes</Button>
+                            <Button variant='outlined' color='secondary'  className='alert_dialog_btn' onClick={this.disperseDialog}>No</Button>
+                        </div>
+                    </div>
+                </div> }
+                <div className="home">
+                    {
+                        this.context.typeUser == 'user' ? (
+                            userDash
                         ) : (
-                            this.context.typeUser == 'listener' ? (
-                                listenerDash
+                            this.context.typeUser == 'intern' ? (
+                                internDash
                             ) : (
-                                <div className='react-unauth-container'>
-                                    <div className='react-unauth'>
-                                        Sorry, But you should be logged in to view this particular section
+                                this.context.typeUser == 'listener' ? (
+                                    listenerDash
+                                ) : (
+                                    <div className='react-unauth-container'>
+                                        <div className='react-unauth'>
+                                            Sorry, But you should be logged in to view this particular section
+                                        </div>
                                     </div>
-                                </div>
+                                )
                             )
                         )
-                    )
-                }
-            </div>
+                    }
+                </div>
+            </React.Fragment>
 
         );
     }
