@@ -23,11 +23,16 @@ class App extends Component {
   state = {
     token: null,
     userId: null,
-    typeUser: null
+    typeUser: null,
+    client: null,
   }
 
   login = (token, userId, typeUser, tokenExpiration) => {
     this.setState({token, userId, typeUser})
+  }
+
+  setClientInfo = (client) => {
+    this.setState({client})
   }
 
   logout = () => {
@@ -47,7 +52,7 @@ class App extends Component {
       <React.Fragment>
         <BrowserRouter>
           <React.Fragment>
-            <AuthContext.Provider value= {{ token: this.state.token, typeUser: this.state.typeUser, userId: this.state.userId, login: this.login, logout: this.logout}}>
+            <AuthContext.Provider value= {{ token: this.state.token, typeUser: this.state.typeUser, userId: this.state.userId, client: this.state.client, setClientInfo: this.setClientInfo, login: this.login, logout: this.logout}}>
               <main>
                 <Switch>
                   <Route exact path="/" component={Home} />

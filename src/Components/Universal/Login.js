@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import "./Login.scss";
 
 class Login extends Component {
+
   render() {
     return (
       <div>

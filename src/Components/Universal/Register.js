@@ -26,32 +26,32 @@ class Register extends Component {
     onNextStep: false,
     // Managed
     // util
-    justFrontCondition: false,
-    justBackCondition: false
+    justCondition: false
   }
 
   static contextType = AuthContext
 
+
   updateTabValue = (event, value) => {
-    if (value == 1) {
+    if (value == 0) {
       this.setState({
         tabValue: value,
         typeUser: 'user' 
       })
     }
-    else if (value == 2) {
+    else if (value == 1) {
       this.setState({
         tabValue: value,
         typeUser: 'intern' 
       })
     }
-    else if (value == 3) {
+    else if (value == 2) {
       this.setState({
         tabValue: value,
         typeUser: 'listener' 
       })
     }
-    else if (value == 4) {
+    else if (value == 3) {
       this.setState({
         tabValue: value,
         typeUser: 'psychiatrist' 
@@ -63,13 +63,13 @@ class Register extends Component {
     e.preventDefault()
     if(!this.state.onNextStep) {
       this.setState({
-        justFrontCondition: true,
+        justCondition: true,
         onNextStep: true
       })
     }
     else {
       this.setState({
-        justBackCondition: true,
+        justCondition: true,
         onNextStep: false
       })
     }
@@ -96,15 +96,15 @@ class Register extends Component {
 
   componentDidUpdate = () => {
     console.log('Component updated with the following State: ', this.state)
-    if(this.state.justFrontCondition) {
-      document.getElementById("signup__form-two").reset()
+    if(this.state.justCondition) {
+      if (document.getElementById("signup__form-two")) {
+        document.getElementById("signup__form-two").reset()
+      }
+      if (document.getElementById("signup__form-one")) {
+        document.getElementById("signup__form-one").reset()
+      }
       this.setState({
-        justFrontCondition: false
-      })
-    } else if (this.state.justBackCondition) {
-      document.getElementById("signup__form-one").reset()
-      this.setState({
-        justBackCondition: false
+        justCondition: false
       })
     }
   }
@@ -125,15 +125,17 @@ class Register extends Component {
 
     const createInternRequestBody = {
       query: `mutation {
-        createIntern(internInput: {name: "${this.state.name}", username: "${this.state.username}", email: "${this.state.email}", password: "${this.state.password}", age: "${this.state.age}", address: "${this.state.address}", mobile: "${this.state.mobile}") {
+        createIntern(internInput: {name: "${this.state.name}", username: "${this.state.username}", email: "${this.state.email}", password: "${this.state.password}", age: "${this.state.age}", address: "${this.state.address}", mobile: "${this.state.mobile}"}) {
           name
+        }
       }`
     }
 
     const createListenerRequestBody = {
       query: `mutation {
-        createListener(listenerInput: {name: "${this.state.name}", username: "${this.state.username}", email: "${this.state.email}", password: "${this.state.password}", age: "${this.state.age}", address: "${this.state.address}", mobile: "${this.state.mobile}") {
+        createListener(listenerInput: {name: "${this.state.name}", username: "${this.state.username}", email: "${this.state.email}", password: "${this.state.password}", age: "${this.state.age}", address: "${this.state.address}", mobile: "${this.state.mobile}"}) {
           name
+        }
       }`
     }
     
@@ -165,6 +167,7 @@ class Register extends Component {
           }
         }).then(res => {
           console.log('Created the new Intern as: ', res)
+          this.loginTypeUser()
         }).catch(err => {
           console.log('Error creating a new intern', err)
         })
@@ -177,7 +180,7 @@ class Register extends Component {
           }
         }).then(res => {
           console.log('Created the new Listener as: ', res)
-          // this.loginTypeUser()
+          this.loginTypeUser()
         }).catch(err => {
           console.log('Error creating a new listener', err)
         })
@@ -206,6 +209,7 @@ class Register extends Component {
         loginIntern( method: "${this.state.username}", password: "${this.state.password}") {
           token
           userId
+          typeUser
         }
       }`
     }
@@ -239,7 +243,8 @@ class Register extends Component {
         }).then(res => {
           console.log('Logged the new User in as: ', res)
           this.context.login(res.data.data.loginUser.token, res.data.data.loginUser.userId, res.data.data.loginUser.typeUser)
-          this.props.history.push('/call')
+          this.getUserInfo()
+          this.props.history.push('/dashboard')
         }).catch(err => {
           console.log('Error logging a new user', err)
         })
@@ -252,6 +257,9 @@ class Register extends Component {
           }
         }).then(res => {
           console.log('Logged the new Intern in as: ', res)
+          this.context.login(res.data.data.loginIntern.token, res.data.data.loginIntern.userId, res.data.data.loginIntern.typeUser)
+          this.getUserInfo()
+          this.props.history.push('/dashboard')
         }).catch(err => {
           console.log('Error logging a new intern', err)
         })
@@ -264,6 +272,9 @@ class Register extends Component {
           }
         }).then(res => {
           console.log('Logged the new Listener in as: ', res)
+          this.context.login(res.data.data.loginListener.token, res.data.data.loginListener.userId, res.data.data.loginListener.typeUser)
+          this.getUserInfo()
+          this.props.history.push('/dashboard')
         }).catch(err => {
           console.log('Error logging a new listener', err)
         })
@@ -275,9 +286,36 @@ class Register extends Component {
     }
   }
 
+  getUserInfo = () => {
+    
+    const getUserInfoRequestBody = {
+      query: `{
+          ${this.context.typeUser}{
+              name
+              username
+              age
+          }
+      }`
+    }
+
+    Axios.post('https://talkitout-backend.herokuapp.com/graphql', JSON.stringify(getUserInfoRequestBody), {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + this.context.token
+        }
+    }).then(res => {
+        console.log('User Object: ', res.data.data[this.context.typeUser])
+        this.context.setClientInfo(res.data.data[this.context.typeUser])
+        this.props.history.push('/dashboard')
+    }).catch(err => {
+        console.log('Error getting the user information: ', err)
+    })
+
+  }
+
   render() {
 
-    const registerUserForm = (
+    const registerForm = (
       <React.Fragment>
         {
           this.state.onNextStep ? (
@@ -419,55 +457,6 @@ class Register extends Component {
       </React.Fragment>
     )
 
-    const registerInternForm = (
-      <form className="login__form">
-        <div class="form-group">
-          <label for="exampleInputName1">Your Name</label>
-          <input
-            name='name'
-            class="form-control"
-            id="exampleInputName1"
-            placeholder="Enter your name"
-          />
-          <label for="exampleInputEmail1">Email address</label>
-          <input
-            type="email"
-            class="form-control"
-            id="exampleInputEmail1"
-            aria-describedby="emailHelp"
-            placeholder="Enter email"
-          />
-          <label for="exampleInputEmail1">Email address</label>
-          <input
-            type="email"
-            class="form-control"
-            id="exampleInputEmail1"
-            aria-describedby="emailHelp"
-            placeholder="Enter email"
-          />
-        </div>
-        <div class="form-group">
-          <label for="exampleInputPassword1">Password</label>
-          <input
-            type="password"
-            class="form-control"
-            id="exampleInputPassword1"
-            placeholder="Password"
-          />
-        </div>
-        <a href="" className="color-yellow text-center d-block">
-          Forgot Password ?
-        </a>
-        <button class="btn btn-primary login__form--button">
-          Submit
-        </button>
-        <br />
-        <div className="text-center ">
-          Or <Link to="/login">Login</Link>
-        </div>
-      </form>
-    )
-
     return (
       <React.Fragment>
         <div>
@@ -483,17 +472,7 @@ class Register extends Component {
               </h5>
             </div>
             {
-              this.state.typeUser == 'user' ? (
-                registerUserForm
-              ) : (
-                this.state.typeUser == 'intern' ? (
-                  registerInternForm
-                ) : (
-                  this.state.typeUser == 'listener' ? (
-                    registerListenerForm
-                  ) : ( null )
-                )
-              )
+              registerForm
             }
             <Paper square>
               <Tabs

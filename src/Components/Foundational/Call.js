@@ -6,12 +6,16 @@ import { Link } from 'react-router-dom'
 import Firebase from 'firebase';
 import Axios from 'axios';
 
+// Get Context
+import AuthContext from '../../Context/Auth-Context'
+
 class Call extends Component {
 
     state = {
         caller: {},
         reciepent: {},
         secret: null,
+        purpose: 'test',
         duration: null,
         onhold: false,
         oncall: false,
@@ -31,6 +35,8 @@ class Call extends Component {
     pc = {};
 
     database;
+
+    static contextType = AuthContext
 
     componentDidMount = () => {
         if(this.state.secret) {
@@ -103,12 +109,25 @@ class Call extends Component {
     startFlow = () => {
         // Init
         // Find a Executive
-
-        const findExecutiveRequestBody = {
-            
+        if (this.state.purpose) {
+            const findExecutiveRequestBody = {
+                query: `{
+                    findExecutive(purpose: "${this.state.purpose}"){
+                        listener
+                    }
+                }`
+            }
+            Axios.post('https://talkitout-backend.herokuapp.com/graphql', JSON.stringify(findExecutiveRequestBody), {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + this.context.token
+                }
+            }).then(res => {
+                console.log(res)
+            }).catch(err => {
+                console.log(err)
+            })
         }
-
-        Axios.post('https://talkitout-backend.herokuapp.com/graphql', JSON.stringify(findExecutiveRequestBody))
     }
 
     render () {
