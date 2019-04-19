@@ -196,6 +196,39 @@ export default class Home extends Component {
     }
 
     startInternSession = () => {
+        // First hide that dialog box
+        this.setState({
+            showAlertDialog: false
+        })
+    }
+
+    keepRequesting = () => {
+        const userConstantRequestsForSessionRequestBody = {
+            query: `{
+                userConstantRequests
+            }`
+        }
+        Axios.post('https://talkitout-backend.herokuapp.com/graphql', JSON.stringify(userConstantRequestsForSessionRequestBody), {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + this.context.token
+            }
+        }).then(res => {
+            console.log('State of the request: ', )
+            this.getSession()
+            this.keepRequesting()
+        }).catch(err => {
+            console.log('Error Querying for Request Track: ', err)
+            // The show must go on
+            this.keepRequesting()
+        })
+    }
+
+    getSession = () => {
+
+    }
+
+    setSession = () => {
 
     }
 
@@ -210,7 +243,7 @@ export default class Home extends Component {
                         <div class="bounce3"></div>
                     </div>
                 </div> }
-                { this.state.status == 'onCall' && this.state.secret && <div>
+                { this.state.status == 'onCall' && this.state.secret && <div className='call-session'>
                     <Call secret={this.state.secret}/>
                 </div> }
                 <div className="home-stats">
@@ -290,54 +323,7 @@ export default class Home extends Component {
                         </div>
                     </div>
                     <div className="home_session">
-                        <p className="session_heading">
-                            Last sessions
-                        </p>
-                        <div className="session">
-                            <div className="session_pic1">
-
-                            </div>
-                            <div className="session_text1">
-                                <p className="session_text-name">
-                                    Jon Bellion
-                                </p>
-                                <p className="session_text-qualification">
-                                    Professional
-                                </p>
-                                <p className="session_text-time">
-                                    last call 1 week ago
-                                </p>
-                            </div>
-                            <div className="conv conv-call ">
-                                <ion-icon name="call"></ion-icon>
-                            </div>
-                            <div className="conv conv-view">
-                                <ion-icon name="mic"></ion-icon>
-
-                            </div>
-                        </div>
-                        <div className="session">
-                            <div className="session_pic2">
-
-                            </div>
-                            <div className="session_text2">
-                                <p className="session_text-name">
-                                    Ted Mosby
-                                </p>
-                                <p className="session_text-qualification">
-                                    Listener
-                                </p>
-                                <p className="session_text-time">
-                                    last call 2 weeks ago
-                                </p>
-                            </div>
-                            <div className="conv conv-call">
-                                <ion-icon name="call"></ion-icon>
-                            </div>
-                            <div className="conv conv-view">
-                                <ion-icon name="mic"></ion-icon>
-                            </div>
-                        </div>
+                        <iframe src="https://www.google.com.qa/maps/d/embed?mid=1MIsCpPCaVddKjDDp_oZF6PdUFzcmYtlt" width="640" height="480"></iframe>
                     </div>
                 </div>
                 <div className='home_call'>
@@ -353,10 +339,10 @@ export default class Home extends Component {
             <React.Fragment>
                 { this.state.showAlertDialog && <div className='alert_dialog'>
                     <div className='alert_dialog_container'>
-                        <div className='alert_dialog_text'>You have a new Call. Answer?</div>
+                        <div className='alert_dialog_text'>You have a new call. Answer?</div>
                         <div className='alert_dialog_btn-wrap'>
-                            <Button className='alert_dialog_btn'>Yes</Button>
-                            <Button className='alert_dialog_btn'>No</Button>
+                            <Button variant='outlined' color='primary' className='alert_dialog_btn' onClick={this.startInternSession}>Yes</Button>
+                            <Button variant='outlined' color='secondary'  className='alert_dialog_btn' onClick={this.disperseDialog}>No</Button>
                         </div>
                     </div>
                 </div> }
@@ -512,15 +498,6 @@ export default class Home extends Component {
 
         return (
             <React.Fragment>
-                { this.state.showAlertDialog && <div className='alert_dialog'>
-                    <div className='alert_dialog_container'>
-                        <div className='alert_dialog_text'>You have a new call. Answer?</div>
-                        <div className='alert_dialog_btn-wrap'>
-                            <Button variant='outlined' color='primary' className='alert_dialog_btn' onClick={this.startInternSession}>Yes</Button>
-                            <Button variant='outlined' color='secondary'  className='alert_dialog_btn' onClick={this.disperseDialog}>No</Button>
-                        </div>
-                    </div>
-                </div> }
                 <div className="home">
                     {
                         this.context.typeUser == 'user' ? (

@@ -39,6 +39,7 @@ class Call extends Component {
     static contextType = AuthContext
 
     componentDidMount = () => {
+        
         if(true) {
             
             var servers = {'iceServers': [{'urls': 'stun:stun.services.mozilla.com'}, {'urls': 'stun:stun.l.google.com:19302'}, {'urls': 'turn:numb.viagenie.ca','credential': 'secret','username': 'talkitout.kulstuff@gmail.com'}]};
