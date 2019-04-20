@@ -63,7 +63,7 @@ class App extends Component {
                 logout: this.logout
               }}
             >
-              <main>
+              {/* <main> */}
                 <Switch>
                   <Route exact path="/" component={Home} />
                   <Route path="/call" component={Call} />
@@ -73,7 +73,7 @@ class App extends Component {
                   <Route path="/register" component={Register} />
                   <Route path="/mood" component={Mood} />
                 </Switch>
-              </main>
+              {/* </main> */}
             </AuthContext.Provider>
           </React.Fragment>
         </BrowserRouter>

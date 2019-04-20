@@ -24,10 +24,11 @@ export default class Home extends Component {
         keepAsking: null,
         request: null,
         message: null,
-        showAlertDialog: true,
+        showAlertDialog: false,
         status: 'docked',
         loading: false,
-        secret: null
+        secret: null,
+        callModel: false
     }
 
     componentWillMount = () => {
@@ -62,8 +63,10 @@ export default class Home extends Component {
                 }
             }).then(res => {
                 console.log(res)
+                this.keepRequesting()
             }).catch(err => {
                 console.log(err)
+                this.keepRequesting()
             })
         }
     }
@@ -119,7 +122,7 @@ export default class Home extends Component {
                checkForRequestByIntern
             }`
         }
-        console.log('Listening for Requests');
+        console.log('Listening for Requests')
         if(this.state.keepAsking) {
             Axios.post('https://talkitout-backend.herokuapp.com/graphql', JSON.stringify(checkForRequestByInternRequestBody), {
                 headers: {
@@ -200,6 +203,22 @@ export default class Home extends Component {
         this.setState({
             showAlertDialog: false
         })
+        const acceptUserRequestBody = {
+            query: `mutation {
+                setUserRequestAccepted
+            }`
+        }
+        Axios.post('https://talkitout-backend.herokuapp.com/graphql', JSON.stringify(acceptUserRequestBody), {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + this.context.token
+            }
+        }).then(res => {
+            console.log('Succeeded: ', res)
+            this.setState({callModel: true})
+        }).catch(err => {
+            console.log('Error: ', err)
+        })
     }
 
     keepRequesting = () => {
@@ -214,13 +233,18 @@ export default class Home extends Component {
                 'Authorization': 'Bearer ' + this.context.token
             }
         }).then(res => {
-            console.log('State of the request: ', )
-            this.getSession()
-            this.keepRequesting()
+            console.log('State of the request: ', res)
+            // this.getSession()
+            if (res.data.data.userConstantRequests == 'responded') {
+                this.setState({callModel: true})
+            }
+            else {
+                setTimeout( this.keepRequesting(), 1000 )
+            }
         }).catch(err => {
             console.log('Error Querying for Request Track: ', err)
             // The show must go on
-            this.keepRequesting()
+            setTimeout( this.keepRequesting(), 1000 )
         })
     }
 
@@ -243,9 +267,9 @@ export default class Home extends Component {
                         <div class="bounce3"></div>
                     </div>
                 </div> }
-                { this.state.status == 'onCall' && this.state.secret && <div className='call-session'>
+                {/* { this.state.status == 'onCall' && this.state.secret && <div className='call-session'>
                     <Call secret={this.state.secret}/>
-                </div> }
+                </div> } */}
                 <div className="home-stats">
                     <div className="stats-box"><p className="number">4</p>
                         <p className="number-label">Weeks</p></div>
@@ -498,6 +522,11 @@ export default class Home extends Component {
 
         return (
             <React.Fragment>
+                {
+                    this.state.callModel && <div className='react-major-wrapper'>
+                        <Call/>
+                    </div>
+                }
                 <div className="home">
                     {
                         this.context.typeUser == 'user' ? (
