@@ -91,7 +91,7 @@
   box-sizing: border-box;
 }
 
-body {
+.mood_calendar--body {
   font-family: "Open Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
   font-size: 1em;
   font-weight: 300;
@@ -101,7 +101,7 @@ body {
   position: relative;
 }
 
-header {
+.header {
   display: block;
   width: 100%;
   padding: 1.75em 0;
@@ -109,14 +109,14 @@ header {
   background: var(--neutral-color);
 }
 
-header #logo {
+.header #logo {
   font-size: 175%;
   text-align: center;
   color: var(--main-color);
   line-height: 1;
 }
 
-header #logo .icon {
+.header #logo .icon {
   padding-right: 0.25em;
 }
 
