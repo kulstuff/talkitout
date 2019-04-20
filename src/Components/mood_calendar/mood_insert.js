@@ -29,7 +29,7 @@ class Mood extends Component {
 
   render() {
     return (
-      <div>
+      <div className="mood_calendar--body">
         <Calendar emotion={this.state.emotion} />
       </div>
     );
