@@ -196,6 +196,7 @@ export default class Home extends Component {
     disperseDialog = () => {
         // console.log('SET');
         this.setState({showAlertDialog: false})
+        
     }
 
     startInternSession = () => {
@@ -253,7 +254,7 @@ export default class Home extends Component {
     }
 
     setSession = () => {
-
+        
     }
 
     render() {
@@ -524,7 +525,9 @@ export default class Home extends Component {
             <React.Fragment>
                 {
                     this.state.callModel && <div className='react-major-wrapper'>
-                        <Call/>
+                        {
+                            this.context.typeUser == 'user' ? <Call secret='something'/> : <Call secret='some-other-thing'/>
+                        }
                     </div>
                 }
                 <div className="home">

@@ -40,9 +40,9 @@ class Call extends Component {
 
     componentDidMount = () => {
         
-        if(true) {
-            
-            var servers = {'iceServers': [{'urls': 'stun:stun.services.mozilla.com'}, {'urls': 'stun:stun.l.google.com:19302'}, {'urls': 'turn:numb.viagenie.ca','credential': 'secret','username': 'talkitout.kulstuff@gmail.com'}]};
+        if(true && this.props.secret) {
+            console.log('Seeking with props: ', this.props)
+            var servers = {'iceServers': [{'urls': 'stun:stun.services.mozilla.com'}, {'urls': 'stun:stun.l.google.com:19302'}, {'urls': 'turn:numb.viagenie.ca','credential': this.props.secret,'username': 'talkitout.kulstuff@gmail.com'}]};
             
             this.pc = new RTCPeerConnection(servers)
             
